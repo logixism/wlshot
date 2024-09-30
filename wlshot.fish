@@ -7,7 +7,7 @@ end
 function capture
     screenshot
 
-    hyprpicker -r -z & sleep 0
+    hyprpicker -r -z & sleep 0.1
     set hyprpickerPid $last_pid
 
     set geometry ""
@@ -30,9 +30,10 @@ function capture
     end
 
     wl-copy --type image/png < "$image"
+    notify-send "Screenshot saved" "Image saved and copied to the clipboard." -t "2000" -i "$image" -a wlshot
 end
 
-set OUTPUT_FOLDER /home/logix/pictures/screenshots
+set OUTPUT_FOLDER ~/pictures/screenshots
 set MODE region
 
 for arg in $argv
