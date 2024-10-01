@@ -1,5 +1,5 @@
 # wlshot 
- a tiny wrapper around grim for screenshots written in fish shell, with freeze support
+ a screenshot tool for wayland that allows for freezing the screen to take a screenshot. at the core, just a wrapper for grim & imagemagick
 
 ## installation ✨
 install the dependencies listed below, and then copy wlshot to `/usr/bin`
