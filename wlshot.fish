@@ -1,13 +1,13 @@
 #!/usr/bin/fish
 
 function screenshot
-    grim -t jpeg -q 100 $image
+    grim -t $FORMAT $IMAGE.$FORMAT
 end
 
 function capture
     screenshot
 
-    hyprpicker -r -z & sleep 0.1
+    hyprpicker -r -z & sleep 0.1 # freeze screen; not sleeping causes weird flashing
     set hyprpickerPid $last_pid
 
     if [ $MODE = "region" ]
@@ -16,33 +16,49 @@ function capture
         set -g geometry (slurp -o)
     end
 
-    kill -9 $hyprpickerPid
+    kill -9 $hyprpickerPid # thaw the screen
 
     if [ "$geometry" = "" ]
-        rm -f $image
+        rm -f $IMAGE.$FORMAT
         exit
     end
     
     set pos +(echo $geometry | cut -d' ' -f1 | string replace ',' '+') # ex. +0+0
     set size (echo $geometry | cut -d' ' -f2)
-    magick $image -crop $size$pos $image
 
-    wl-copy --type image/png < "$image"
-    notify-send "Screenshot saved" "Image saved and copied to the clipboard." -t "2000" -i "$image" -a wlshot
+    magick $IMAGE.$FORMAT -crop $size$pos $IMAGE.$FORMAT # crop the image
+
+    if [ "$CONVERT_TO" != "" ]
+        magick $IMAGE.$FORMAT $IMAGE.$CONVERT_TO # if specified, convert the image to the required format
+        wl-copy --type image/png < "$IMAGE.$CONVERT_TO"
+        rm -f "$IMAGE.$FORMAT"
+    else
+        wl-copy --type image/png < "$IMAGE.$FORMAT"
+    end
+
+    notify-send "Screenshot saved" "Image saved and copied to the clipboard." -t "2000" -i "$IMAGE.$FORMAT" -a wlshot
 end
 
 set OUTPUT_FOLDER ~/pictures/screenshots
 set MODE region
+set FORMAT jpeg
+set CONVERT_TO
 
-for arg in $argv
-    switch $arg
-        case -m
-            set MODE $argv[2]
-        case -o
-            set OUTPUT_FOLDER $argv[2]
-    end
+argparse --name=wlshot 'm/mode=' 'o/output=' 'f/format=' 'c/convert=' -- $argv
+
+if [ "$_flag_o" != "" ]
+    set OUTPUT_FOLDER $_flag_o
+end
+if [ "$_flag_f" != "" ]
+    set FORMAT $_flag_f
+end
+if [ "$_flag_c" != "" ]
+    set CONVERT_TO $_flag_c
+end
+if [ "$_flag_m" != "" ]
+    set MODE $_flag_m
 end
 
-set image $OUTPUT_FOLDER/(date +"%F %T %N.jpeg")
+set IMAGE $OUTPUT_FOLDER/(date +"%F %T %N")
 
 capture
