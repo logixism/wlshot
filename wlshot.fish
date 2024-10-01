@@ -10,24 +10,22 @@ function capture
     hyprpicker -r -z & sleep 0.1
     set hyprpickerPid $last_pid
 
-    set geometry ""
-    set requiresCrop 0
-
     if [ $MODE = "region" ]
-        set geometry (slurp -d)
-        set requiresCrop 1
+        set -g geometry (slurp -d)
     else if [ $MODE = "screen" ]
-        set geometry (slurp -o)
-        set requiresCrop 1
+        set -g geometry (slurp -o)
     end
 
     kill -9 $hyprpickerPid
-    
-    if [ $requiresCrop = 1 ]
-        set pos +(echo $geometry | cut -d' ' -f1 | string replace ',' '+') # ex. +0+0
-        set size (echo $geometry | cut -d' ' -f2)
-        magick $image -crop $size$pos $image
+
+    if [ "$geometry" = "" ]
+        rm -f $image
+        exit
     end
+    
+    set pos +(echo $geometry | cut -d' ' -f1 | string replace ',' '+') # ex. +0+0
+    set size (echo $geometry | cut -d' ' -f2)
+    magick $image -crop $size$pos $image
 
     wl-copy --type image/png < "$image"
     notify-send "Screenshot saved" "Image saved and copied to the clipboard." -t "2000" -i "$image" -a wlshot
