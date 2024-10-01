@@ -11,6 +11,7 @@
 | `imagemagick`| cropping screenshot|
 | `wl-copy`   | copying screenshot to clipboard|
 
+
 ## usage 🚀
  By default, wlshot will take a screenshot in jpeg format</br>
 
@@ -22,8 +23,9 @@
 | -f, --format  | output format   | `jpeg`                 | `jpeg`, `ppm`, `png` |
 | -c, --convert | convert to      |                        | `png`, `jpg`, `jpeg` |
 </br>
- > [!WARNING]
- > Using `-f png` is not recommended as it may take a while to capture the screenshot. Instead, use `-f ppm` and `-c png` together in order to capture a `ppm` screenshot, later converting it to png (much faster!)
+
+> [!WARNING]
+> Using `-f png` is not recommended as it may take a while to capture the screenshot. Instead, use `-f ppm` and `-c png` together in order to capture a `ppm` screenshot, later converting it to png (much faster!)
 
 ## contributing 🔨
  feel free to submit PRs/issues, and i will take a look at them!<br/><br/>
