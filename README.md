@@ -11,5 +11,5 @@ install the dependencies listed below, and then copy wlshot to `/usr/bin`
 * `wl-copy` - copying the screenshot to clipboard
 
 ## contributing 🔨
- feel free to submit PRs/issues, and i will take a look at them!
+ feel free to submit PRs/issues, and i will take a look at them!<br/><br/>
  p.s: if you can find a way to take png screenshots without it taking a second (on a triple monitor setup), i will gladly accept the solution :)
