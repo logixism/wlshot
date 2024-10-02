@@ -1,6 +1,9 @@
 # wlshot 
  A screenshot tool for wayland that allows for freezing the screen to take a screenshot. At the core, just a wrapper for grim & imagemagick
 
+## why use this ❓
+ Unlike other tools for screenshots on Hyprland, such as [`grimblast`](https://github.com/hyprwm/contrib/tree/main/grimblast) or [`hyprshot`](https://github.com/Gustash/Hyprshot), wlshot does not have issues with taking a frozen screenshot, such as a crosshair appearing in the bottom right corner. wlshot also allows changing output format :)
+
 ## installation ✨
  install the dependencies listed below, and then copy wlshot to `/usr/bin`
 
@@ -13,8 +16,6 @@
 
 
 ## usage 🚀
- By default, wlshot will take a screenshot in jpeg format</br>
-
  `wlshot` takes the following flags:
 | flag          | description     | default                | allowed values       |
 |---------------|-----------------|------------------------|----------------------|
